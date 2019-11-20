@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View } from 'react-native'
+import { View, Platform } from 'react-native'
 import { NavigationNativeContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Ionicons } from '@expo/vector-icons'
@@ -9,6 +9,13 @@ import { AppLoading } from 'expo'
 
 import Home from './src/Screens/Home'
 import Profile from './src/Screens/Profile'
+import Products from './src/Screens/Products'
+import Orders from './src/Screens/Orders'
+
+if (Platform.OS === 'android') {
+  require('intl')
+  require('intl/locale-data/jsonp/pt-BR')
+}
 
 const Tab = createBottomTabNavigator()
 
@@ -37,31 +44,24 @@ const App = () => {
     <View style={{ flex: 1, paddingTop: insets.top }}>
       <NavigationNativeContainer>
         <Tab.Navigator
-          initialRouteName="Home"
           screenOptions={({ route }) => ({
             tabBarIcon: ({ focused, color, size }) => {
-              let iconName;
+              let iconName
 
               if (route.name === 'Home') {
-                iconName = `ios-information-circle${focused ? '' : '-outline'}`;
+                iconName = `ios-information-circle${focused ? '' : '-outline'}`
               } else if (route.name === 'Profile') {
-                iconName = `ios-options`;
+                iconName = `ios-options`
               }
 
-              return <Ionicons name={iconName} size={size} color={color} />;
+              return <Ionicons name={iconName || 'ios-options'} size={size} color={color} />
             },
           })}
         >
-          <Tab.Screen
-            name="Home"
-            component={Home}
-            options={{ title: 'Início' }}
-          />
-          <Tab.Screen
-            name="Profile"
-            component={Profile}
-            options={{ title: 'Perfil' }}
-          />
+          <Tab.Screen name="Orders" component={Orders} />
+          <Tab.Screen name="Products" component={Products} />
+          <Tab.Screen name="Home" component={Home} />
+          <Tab.Screen name="Profile" component={Profile} />
         </Tab.Navigator>
       </NavigationNativeContainer>
     </View>
