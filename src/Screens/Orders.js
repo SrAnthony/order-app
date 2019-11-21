@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
-import { Container, Header, Content, Title, Body, Right, Text, ListItem, Separator, View, List } from 'native-base'
+import {
+  Container, Header, Content, Title, Body, Right, Text, ListItem, View, Button, Footer 
+} from 'native-base'
 import { currencyFormatter } from '../Utils/formatters'
 import Accordion from 'react-native-collapsible/Accordion'
 
@@ -11,7 +13,7 @@ export default ({ navigation }) => {
       referenceCode: 1,
       created_date: '10/10/19 às 23:40',
       finished_date: '11/10/19 às 04:30',
-      status: 0,
+      status: 1,
       products: [
         {
           referenceCode: 1,
@@ -52,7 +54,7 @@ export default ({ navigation }) => {
   const renderHeader = order => (
     <View style={{ paddingVertical: 10, borderBottomColor: '#ddd', borderBottomWidth: 1 }}>
       <Title style={{ color: 'black' }}>
-        Comanda #{order.referenceCode} ({order.created_date})
+        #{order.referenceCode} ({order.created_date})
       </Title>
     </View>
   )
@@ -105,6 +107,12 @@ export default ({ navigation }) => {
           onChange={order => setActiveOrder(order)}
         />
       </Content>
+
+      <Footer style={{ backgroundColor: 'transparent' }}>
+        <Button success full>
+          <Text>Abrir comanda</Text>
+        </Button>
+      </Footer>
     </Container>
   )
 }

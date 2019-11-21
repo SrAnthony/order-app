@@ -7,10 +7,10 @@ import { SafeAreaProvider, useSafeArea } from 'react-native-safe-area-context'
 import * as Font from 'expo-font'
 import { AppLoading } from 'expo'
 
-import Home from './src/Screens/Home'
-import Profile from './src/Screens/Profile'
 import Products from './src/Screens/Products'
 import Orders from './src/Screens/Orders'
+import Login from './src/Screens/Login'
+import Register from './src/Screens/Register'
 
 if (Platform.OS === 'android') {
   require('intl')
@@ -60,8 +60,8 @@ const App = () => {
         >
           <Tab.Screen name="Orders" component={Orders} />
           <Tab.Screen name="Products" component={Products} />
-          <Tab.Screen name="Home" component={Home} />
-          <Tab.Screen name="Profile" component={Profile} />
+          <Tab.Screen name="Login" component={Login} />
+          <Tab.Screen name="Register" component={Register} />
         </Tab.Navigator>
       </NavigationNativeContainer>
     </View>
