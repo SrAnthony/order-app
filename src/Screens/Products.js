@@ -1,25 +1,18 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Container, Header, Content, Title, Body, Right, Text, ListItem } from 'native-base'
 import { currencyFormatter } from '../Utils/formatters'
+import { API } from '../Utils/endpoints'
 
 export default ({ navigation }) => {
-  const products = [
-    {
-      id: 1,
-      name: 'Cerveja',
-      price: 15.50,
-    },
-    {
-      id: 2,
-      name: 'Refrigerante',
-      price: 10,
-    },
-    {
-      id: 3,
-      name: 'Caipirinha',
-      price: 21.50,
-    },
-  ]
+  const [products, setProducts] = useState(null)
+
+  const getProducts = () => {
+    API.get('/api/Product')
+      .then(result => setProducts(result.data))
+      .catch(err => console.log(err))
+  }
+
+  useEffect(getProducts, [])
 
   return (
     <Container>
@@ -32,8 +25,12 @@ export default ({ navigation }) => {
       </Header>
 
       <Content>
-        {products.map(product => (
-          <ListItem key={product.id}>
+        {
+          products === null
+          && <Text>Carregando...</Text>
+        }
+        {products && products.map(product => (
+          <ListItem key={product.referenceCode}>
             <Body>
               <Text>{product.name}</Text>
             </Body>

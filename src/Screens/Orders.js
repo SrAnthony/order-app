@@ -1,60 +1,44 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   Container, Header, Content, Title, Body, Right, Text, ListItem, View, Button, Footer 
 } from 'native-base'
-import { currencyFormatter } from '../Utils/formatters'
 import Accordion from 'react-native-collapsible/Accordion'
+import moment from 'moment'
+import { currencyFormatter } from '../Utils/formatters'
+import { API } from '../Utils/endpoints'
 
 export default ({ navigation }) => {
   const [active_order, setActiveOrder] = useState([])
+  const [orders, setOrders] = useState(null)
 
-  const orders = [
-    {
-      referenceCode: 1,
-      created_date: '10/10/19 às 23:40',
-      finished_date: '11/10/19 às 04:30',
-      status: 1,
-      products: [
-        {
-          referenceCode: 1,
-          quantity: 1,
-          name: 'Bolacha',
-          price: 12,
-        },
-        {
-          referenceCode: 2,
-          quantity: 1,
-          name: 'Cerveja',
-          price: 10,
-        },
-      ]
-    },
-    {
-      referenceCode: 2,
-      created_date: '12/10/19 às 23:40',
-      finished_date: '13/10/19 às 04:30',
-      status: 0,
-      products: [
-        {
-          referenceCode: 1,
-          quantity: 1,
-          name: 'Bolacha',
-          price: 12,
-        },
-        {
-          referenceCode: 2,
-          quantity: 1,
-          name: 'Cerveja',
-          price: 10,
-        },
-      ]
-    },
-  ]
+  const getOrders = () => {
+    API.get(`/api/Order?clientCpf=44842704802`)
+      .then(result => setOrders(result.data))
+      .catch(err => console.log(err))
+  }
+
+  useEffect(getOrders, [])
+
+  const openOrder = () => {
+    API.post('/api/Order/open', { client_cpf: '44842704802' })
+      .then(getOrders)
+      .catch(err => console.log(err))
+  }
+
+  const closeOrder = () => {
+    const order_code = orders.find(order => !order.finished_date).referenceCode
+
+    API.put(`/api/Order/${order_code}/close`)
+      .then(getOrders)
+      .catch(err => console.log(err))
+  }
 
   const renderHeader = order => (
     <View style={{ paddingVertical: 10, borderBottomColor: '#ddd', borderBottomWidth: 1 }}>
       <Title style={{ color: 'black' }}>
-        #{order.referenceCode} ({order.created_date})
+        {moment(order.created_date).format('DD/MM/YYYY [às] HH:mm')} {
+          !order.finished_date && ' (Aberto)'
+        }
       </Title>
     </View>
   )
@@ -99,8 +83,12 @@ export default ({ navigation }) => {
       </Header>
 
       <Content>
+        {
+          orders === null
+          && <Text>Carregando...</Text>
+        }
         <Accordion
-          sections={orders}
+          sections={orders || []}
           activeSections={active_order}
           renderHeader={renderHeader}
           renderContent={renderContent}
@@ -109,9 +97,17 @@ export default ({ navigation }) => {
       </Content>
 
       <Footer style={{ backgroundColor: 'transparent' }}>
-        <Button success full>
-          <Text>Abrir comanda</Text>
-        </Button>
+        {
+          (orders || []).some(order => !order.finished_date) ? (
+            <Button dark full onPress={closeOrder}>
+              <Text>Fechar comanda</Text>
+            </Button>
+          ) : (
+            <Button success full onPress={openOrder}>
+              <Text>Abrir comanda</Text>
+            </Button>
+          )
+        }
       </Footer>
     </Container>
   )
