@@ -3,7 +3,7 @@ import { Container, Header, Content, Title, Body, Right, Text, ListItem } from '
 import { currencyFormatter } from '../Utils/formatters'
 import { API } from '../Utils/endpoints'
 
-export default ({ navigation }) => {
+export default () => {
   const [products, setProducts] = useState(null)
 
   const getProducts = () => {
