@@ -34,6 +34,10 @@ export default ({ navigation }) => {
       .catch(err => console.log(err))
   }
 
+  const handleCloseOrder = () => {
+    setSelectCardModalVisible(true)
+  }
+
   return (
     <Container>
       <Header>
@@ -53,7 +57,7 @@ export default ({ navigation }) => {
       <Footer style={{ backgroundColor: 'transparent' }}>
         {
           (orders || []).some(order => !order.finished_date) ? (
-            <Button dark full onPress={() => setSelectCardModalVisible(true)}>
+            <Button dark full onPress={handleCloseOrder}>
               <Text>Pagar e fechar comanda</Text>
             </Button>
           ) : (

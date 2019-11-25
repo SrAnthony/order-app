@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { View, Platform } from 'react-native'
+import { Root } from 'native-base'
 import { NavigationNativeContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Ionicons } from '@expo/vector-icons'
@@ -42,18 +43,19 @@ const App = () => {
     return (<AppLoading />)
 
   return (
-    <View style={{ flex: 1, paddingTop: insets.top }}>
-      <NavigationNativeContainer>
-        <Tab.Navigator
-          screenOptions={({ route }) => ({
-            tabBarIcon: ({ focused, color, size }) => {
-              let iconName
+    <Root>
+      <View style={{ flex: 1, paddingTop: insets.top }}>
+        <NavigationNativeContainer>
+          <Tab.Navigator
+            screenOptions={({ route }) => ({
+              tabBarIcon: ({ focused, color, size }) => {
+                let iconName
 
-              if (route.name === 'Home') {
-                iconName = `ios-information-circle${focused ? '' : '-outline'}`
-              } else if (route.name === 'Profile') {
-                iconName = `ios-options`
-              }
+                if (route.name === 'Home') {
+                  iconName = `ios-information-circle${focused ? '' : '-outline'}`
+                } else if (route.name === 'Profile') {
+                  iconName = `ios-options`
+                }
 
               return <Ionicons name={iconName || 'ios-options'} size={size} color={color} />
             },

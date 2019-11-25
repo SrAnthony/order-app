@@ -1,13 +1,30 @@
 import React, { useState } from 'react'
-import { Container, Content, Form, Item, Input, Label, Button, Text } from 'native-base'
+import { Container, Content, Form, Item, Input, Label, Button, Text, Toast } from 'native-base'
+import { API } from '../Utils/endpoints'
 
-export default () => {
+export default ({ navigation }) => {
   const [name, setName] = useState('')
   const [cpf, setCpf] = useState('')
   const [phone, setPhone] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+
+
+  const submit = () => {
+    if (password != confirmPassword) {
+      return Toast.show({
+        text: 'Senhas não correspondentes!',
+        buttonText: 'Ok'
+      })
+    }
+
+    API.post('api/Client', { name, cpf, phone, email, password })
+    .then(() => {
+      navigation.navigate('Orders')
+    })
+    .catch(err => console.log(err))
+  }
 
   return (
     <Container>
@@ -38,7 +55,7 @@ export default () => {
             <Input secureTextEntry value={confirmPassword} onChangeText={setConfirmPassword} />
           </Item>
         </Form>
-        <Button block style={{ marginTop: 40 }} primary>
+        <Button block style={{ marginTop: 40 }} primary onPress={ submit }>
           <Text>Cadastrar</Text>
         </Button>
       </Content>
