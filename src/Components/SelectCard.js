@@ -5,16 +5,19 @@ import CreditCard from 'react-native-credit-card'
 import Modal from 'react-native-modal'
 import { API } from '../Utils/endpoints'
 
-export default ({ visible, closeModal, onCardSelect }) => {
+export default ({ visible, closeModal, onCardSelect, navigation }) => {
   const [cards, setCards] = useState(null)
+  count = 0
 
   const getCreditCards = () => {
-    API.get(`/api/client/44842704802`)
-      .then(result => setCards(result.data.credit_cards))
-      .catch(err => console.log(err))
+    if(visible){
+      API.get(`/api/client/44842704802`)
+        .then(result => setCards(result.data.credit_cards))
+        .catch(err => console.log(err))
+    }
   }
 
-  useEffect(getCreditCards, [])
+  useEffect(getCreditCards, [visible])
 
   const selectCard = card => {
     closeModal()
@@ -35,7 +38,7 @@ export default ({ visible, closeModal, onCardSelect }) => {
             }
             <List>
               {cards && cards.map(card => (
-                <ListItem key={card.card_number}>
+                <ListItem key={count++}>
                   <Body>
                     <CreditCard
                       style={{ marginVertical: 10, marginHorizontal: 10, marginBottom: 0, elevation: 3, alignSelf: 'center' }}
@@ -54,8 +57,11 @@ export default ({ visible, closeModal, onCardSelect }) => {
             </List>
           </Content>
           <Footer>
-            <Button block onPress={() => { }}>
+            <Button block onPress={() => { closeModal(); navigation.navigate('CreditCardRegister') }}>
               <Text>Adicionar cartão</Text>
+            </Button>
+            <Button block  style={{ marginHorizontal: 10 }} onPress={() => { closeModal(); }}>
+              <Text>Fechar</Text>
             </Button>
           </Footer>
         </Container>

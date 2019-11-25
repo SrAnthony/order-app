@@ -58,17 +58,17 @@ const App = () => {
                 }
 
               return <Ionicons name={iconName || 'ios-options'} size={size} color={color} />
-              },
-            })}
-          >
-            <Tab.Screen name="Orders" component={Orders} />
-            <Tab.Screen name="Products" component={Products} />
-            <Tab.Screen name="Login" component={Login} />
-            <Tab.Screen name="Register" component={Register} />
-            <Tab.Screen name="CreditCardRegister" component={CreditCardRegister} />
-          </Tab.Navigator>
-        </NavigationNativeContainer>
-      </View>
+            },
+          })}
+        >
+          <Tab.Screen name="Orders" component={Orders} />
+          <Tab.Screen name="Products" component={Products} />
+          <Tab.Screen name="Login" component={Login} />
+          <Tab.Screen name="Register" component={Register} />
+          <Tab.Screen name="CreditCardRegister" component={CreditCardRegister} />
+        </Tab.Navigator>
+      </NavigationNativeContainer>
+    </View>
     </Root>
   )
 }
