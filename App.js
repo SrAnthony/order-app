@@ -12,6 +12,9 @@ import Products from './src/Screens/Products'
 import Orders from './src/Screens/Orders'
 import Login from './src/Screens/Login'
 import Register from './src/Screens/Register'
+import CreditCards from './src/Screens/CreditCards'
+import CreditCardsRegister from './src/Screens/CreditCardRegister'
+import CreditCardRegister from './src/Screens/CreditCardRegister'
 
 if (Platform.OS === 'android') {
   require('intl')
@@ -56,6 +59,7 @@ const App = () => {
                   iconName = `ios-options`
                 }
 
+<<<<<<< HEAD
                 return <Ionicons name={iconName || 'ios-options'} size={size} color={color} />
               },
             })}
@@ -68,6 +72,21 @@ const App = () => {
         </NavigationNativeContainer>
       </View>
     </Root>
+=======
+              return <Ionicons name={iconName || 'ios-options'} size={size} color={color} />
+            },
+          })}
+        >
+          <Tab.Screen name="Orders" component={Orders} />
+          <Tab.Screen name="Products" component={Products} />
+          <Tab.Screen name="Login" component={Login} />
+          <Tab.Screen name="Register" component={Register} />
+          <Tab.Screen name="CreditCard" component={CreditCards} />
+          <Tab.Screen name="CreditCardRegister" component={CreditCardRegister} />
+        </Tab.Navigator>
+      </NavigationNativeContainer>
+    </View>
+>>>>>>> c4ee7f4cbf93250d90943abdb5bf751f95f38b7a
   )
 }
 
