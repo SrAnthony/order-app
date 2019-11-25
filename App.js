@@ -69,6 +69,7 @@ const App = () => {
         </Tab.Navigator>
       </NavigationNativeContainer>
     </View>
+    </Root>
   )
 }
 

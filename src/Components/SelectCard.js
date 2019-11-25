@@ -10,12 +10,14 @@ export default ({ visible, closeModal, onCardSelect, navigation }) => {
   count = 0
 
   const getCreditCards = () => {
-    API.get(`/api/client/44842704802`)
-      .then(result => setCards(result.data.credit_cards))
-      .catch(err => console.log(err))
+    if(visible){
+      API.get(`/api/client/44842704802`)
+        .then(result => setCards(result.data.credit_cards))
+        .catch(err => console.log(err))
+    }
   }
 
-  useEffect(getCreditCards, [])
+  useEffect(getCreditCards, [visible])
 
   const selectCard = card => {
     closeModal()
