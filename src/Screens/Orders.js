@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import {
-  Container, Header, Content, Title, Body, Right, Text, ListItem, View, Button, Footer 
+  Container, Header, Content, Title, Body, Text, Button, Footer 
 } from 'native-base'
-import Accordion from 'react-native-collapsible/Accordion'
 import { API } from '../Utils/endpoints'
 import OrdersList from '../Components/OrdersList'
 import SelectCard from '../Components/SelectCard'
+import PaymentModal from '../Components/PaymentModal'
 
 export default ({ navigation }) => {
   const [orders, setOrders] = useState(null)
   const [select_card_modal_visible, setSelectCardModalVisible] = useState(false)
+  const [payment_modal_visible, setPaymentModalVisible] = useState(false)
 
   const getOrders = () => {
     API.get(`/api/Order?clientCpf=44842704802`)
@@ -26,12 +27,11 @@ export default ({ navigation }) => {
   }
 
   const closeOrder = () => {
-    setSelectCardModalVisible(true)
-    // const order_code = orders.find(order => !order.finished_date).referenceCode
+    const order_code = orders.find(order => !order.finished_date).referenceCode
 
-    // API.put(`/api/Order/${order_code}/close`)
-    //   .then(getOrders)
-    //   .catch(err => console.log(err))
+    API.put(`/api/Order/${order_code}/close`)
+      .then(getOrders)
+      .catch(err => console.log(err))
   }
 
   return (
@@ -53,7 +53,7 @@ export default ({ navigation }) => {
       <Footer style={{ backgroundColor: 'transparent' }}>
         {
           (orders || []).some(order => !order.finished_date) ? (
-            <Button dark full onPress={closeOrder}>
+            <Button dark full onPress={() => setSelectCardModalVisible(true)}>
               <Text>Pagar e fechar comanda</Text>
             </Button>
           ) : (
@@ -64,7 +64,19 @@ export default ({ navigation }) => {
         }
       </Footer>
 
-      <SelectCard visible={select_card_modal_visible} />
+      <SelectCard
+        visible={select_card_modal_visible}
+        closeModal={() => setSelectCardModalVisible(false)}
+        onCardSelect={() => {
+          setPaymentModalVisible(true)
+          closeOrder()
+        }}
+      />
+
+      <PaymentModal
+        visible={payment_modal_visible}
+        closeModal={() => setPaymentModalVisible(false)}
+      />
     </Container>
   )
 }
