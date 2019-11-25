@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
 import CreditCard from 'react-native-credit-card';
-import { Content, Container, Form, Item, Input, Label, Body } from 'native-base'
+import { Content, Container, Form, Item, Input, Label, Body, Button, Text } from 'native-base'
+import { API } from '../Utils/endpoints'
 
-export default function CreditCardRegister() {
+export default function CreditCardRegister({navigation}) {
 
     const [name, setName] = useState('')
     const [last_name, setLastName] = useState('')
@@ -19,7 +20,7 @@ export default function CreditCardRegister() {
             last_name: last_name,
             cpf_holder: cpf_holder
           })
-        .then(result => { console.log(result); navigation.navigate('CreditCards')})
+        .then(result => { console.log(result);})
         .catch(err => console.log(err));
     }
 
@@ -53,6 +54,14 @@ export default function CreditCardRegister() {
                 <Label>CPF do títular</Label>
                 <Input value={cpf_holder} onChangeText={setCpfHolder} />
               </Item>
+              <Button block style={{ marginTop: 10 }} onPress={
+                () => {
+                  addCreditCard()
+                  navigation.navigate('Orders')
+                }
+              } primary>
+                <Text>Cadastrar</Text>
+              </Button>
           </Form>
         </Content>
       </Container>

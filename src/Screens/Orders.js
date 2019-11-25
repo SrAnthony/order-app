@@ -65,6 +65,7 @@ export default ({ navigation }) => {
       </Footer>
 
       <SelectCard
+        navigation={navigation}
         visible={select_card_modal_visible}
         closeModal={() => setSelectCardModalVisible(false)}
         onCardSelect={() => {

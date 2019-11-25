@@ -11,8 +11,6 @@ import Products from './src/Screens/Products'
 import Orders from './src/Screens/Orders'
 import Login from './src/Screens/Login'
 import Register from './src/Screens/Register'
-import CreditCards from './src/Screens/CreditCards'
-import CreditCardsRegister from './src/Screens/CreditCardRegister'
 import CreditCardRegister from './src/Screens/CreditCardRegister'
 
 if (Platform.OS === 'android') {
@@ -65,7 +63,6 @@ const App = () => {
           <Tab.Screen name="Products" component={Products} />
           <Tab.Screen name="Login" component={Login} />
           <Tab.Screen name="Register" component={Register} />
-          <Tab.Screen name="CreditCard" component={CreditCards} />
           <Tab.Screen name="CreditCardRegister" component={CreditCardRegister} />
         </Tab.Navigator>
       </NavigationNativeContainer>
